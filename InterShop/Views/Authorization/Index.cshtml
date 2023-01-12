@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model User
+
+@*Authorization*@
+<form method="POST" asp-controller="Authorization" style="align-items:center">
+    <label>Login</label><br />
+    <input asp-for="Login" name="Login"/><br />
+    <label>Password</label><br />
+    <input type="password" asp-for="Password" name="Password" /><br /><br />
+    <button type="submit" class="btn btn-facebook">Authorization</button>
+</form>
+<a asp-action="Registration">For registration</a>

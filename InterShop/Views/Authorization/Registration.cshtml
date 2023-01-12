@@ -1,0 +1,21 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model User
+
+<header>Registration Form</header>
+<form method="POST" asp-controller="Authorization" asp-action="Check">
+    <label>Login</label><br />
+    <input asp-for="Login"/><br />
+    <label>Password</label><br />
+    <input asp-for="Password" type="password" /><br />
+    <label>Email</label><br />
+    <input asp-for="Email" type="email" /><br />
+    <label>Phone</label><br />
+    <input asp-for="Phone" type="tel" /><br />
+    <input type="number" value="3" asp-for="RoleId" hidden/>
+    <button type="submit" class="btn btn-facebook">Registration</button>
+</form>

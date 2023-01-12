@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model List<Product>
+
+    <header>Products</header>
+
+<form asp-action="ProductAdd" asp-controller="CRUD" method="GET">
+    <button type="submit" class="btn btn-facebook">Add Product</button>
+</form>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Price</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Price</td>
+
+                <td>
+                    <form method="GET" asp-action="ProductInfo" asp-controller="CRUD" asp-route-id="@item.Id">
+                        <button class="btn btn-facebook" type="submit">Info</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="GET" asp-action="ProductEdit" asp-controller="CRUD" asp-route-id="@item.Id">
+                        <button class="btn btn-facebook" type="submit">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" asp-action="ProductDelete" asp-controller="CRUD" asp-route-id="@item.Id">
+                        <button class="btn btn-facebook" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+    }
+</table>

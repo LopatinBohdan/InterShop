@@ -1,0 +1,15 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model Category
+
+<header>Edit Category</header>
+
+<form method="POST" asp-action="CategoryEdit" asp-controller="CRUD" asp-route-id="@Model.Id">
+   <label>Title</label><br />
+   <input asp-for="Title"/><br />
+   <button type="submit" class="btn btn-facebook">Edit</button>
+</form>

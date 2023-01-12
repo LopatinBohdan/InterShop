@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model User
+
+<header>User Info</header>
+
+<ul>UserInfo
+    <li>Id: @Model.Id</li>
+    <li>Login: @Model.Login</li>
+    <li>Password: @Model.Password</li>
+    <li>Email: @Model.Email</li>
+    <li>Phone: @Model.Phone</li>
+    <li>UserRole: @ViewData["Role"]</li>
+</ul>

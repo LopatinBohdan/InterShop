@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var v = ViewBag.Photos;
+}
+@model List<Product>
+
+<style>
+    .box {
+        color: black;
+        border-radius: 5px;
+        padding: 20px;
+        font-size: 150%;
+    }
+    .wrapper {
+        width: 600px;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(6, 300px);
+    }
+</style>
+
+
+     <!-- DropDownMenu SortBy -->
+<div class="dropdown d-none d-sm-inline-block form-inline">
+       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+           Sort by
+       </button>
+       <ul class="dropdown-menu dropdown-menu-left">
+           <form method="POST">
+            <li><button class="dropdown-item" asp-action="IndexSort" asp-controller="Home" asp-route-sortString="title" asp-route-CategoryTitle="@ViewBag.ChooseCategory">Title</button></li>
+           </form>
+           <form method="POST">
+        <li><button class="dropdown-item" asp-action="IndexSort" asp-controller="Home" asp-route-sortString="expensive" asp-route-CategoryTitle="@ViewBag.ChooseCategory">Expensive</button></li>
+           </form>
+           <form method="POST">
+        <li><button class="dropdown-item" asp-action="IndexSort" asp-controller="Home" asp-route-sortString="chip" asp-route-CategoryTitle="@ViewBag.ChooseCategory">Chip</button></li>
+           </form>
+       </ul>
+</div>
+
+<!-- Product List -->
+<div class="text-center">
+    <h1 class="display-4">Welcome to InterShop</h1>
+    <a asp-controller="CRUD" >Product List</a>
+    <div class="wrapper">
+
+    @foreach (Product item in Model)
+    {
+        <div class="box">
+            <div class="card" style="width: 18rem;">
+                <img src="@((ViewBag.photos as List<Photo>).Where(p=>p.ProductId==item.Id).First().Path)" class="d-block w-100" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title</h5>
+                    <p class="card-text" >@item.Price $</p>
+                    
+                    <a asp-action="ProductInfo" asp-controller="CRUD" class="btn btn-primary" asp-route-id="@item.Id">More</a>
+                    <button type="button"  class="btn btn-success" asp-route-id="@item.Id" onclick="ToCart(@item.Id)">Buy</button>
+                    <input type="number" name="amount" id="@item.Id" style="width:40px; height:35px" min="1" value="1">
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        function ToCart(id){
+            var amount=+document.getElementById(id).value;
+            var obj={Id:id,Amount:amount};
+
+           
+            var cart=getCookie("cart");
+            if(cart!=undefined){
+                cart=JSON.parse(cart);
+                
+                cart.push(obj);
+            }
+            else{
+                cart=[];
+                cart.push(obj);
+            }
+            var str = JSON.stringify(cart);
+            setCookie("cart", str, { "max-age": 3600 * 3 });
+        }
+        //GET COOKIE
+        function getCookie(name) {
+             let matches = document.cookie.match(
+             new RegExp(
+             "(?:^|; )" +
+               name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+               "=([^;]*)"
+                )
+        );
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    //SET COOKIE
+        function setCookie(name, value, options = {}) {
+            options = {
+                path: "/",
+                // при необходимости добавьте другие значения по умолчанию
+                ...options,
+            };
+
+            if (options.expires instanceof Date) {
+                options.expires = options.expires.toUTCString();
+            }
+
+            let updatedCookie =
+                encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+            for (let optionKey in options) {
+                updatedCookie += "; " + optionKey;
+                let optionValue = options[optionKey];
+                if (optionValue !== true) {
+                    updatedCookie += "=" + optionValue;
+                }
+            }
+            document.cookie = updatedCookie;
+        }
+    </script>
+}

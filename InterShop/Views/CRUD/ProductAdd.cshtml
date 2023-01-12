@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "ProductAdd";
+}
+@model Product
+
+<header>Add Product</header>
+
+<form method="POST" asp-controller="CRUD" asp-action="CheckProduct" enctype="multipart/form-data">
+    <label>Title</label><br />
+    <input asp-for="Title" /><br />
+    <label>Amount</label><br />
+    <input type="number" asp-for="Amount"  /><br />
+    <label>Description</label><br />
+    <textarea asp-for="Description"></textarea><br />
+    <label>Price</label><br />
+    <input asp-for="Price" /><br /><br />
+    <select asp-for="CategoryId" class="form-control col-2">
+        @foreach (Category item in ViewBag.vb)
+        {
+            <option value="@item.Id">@item.Title</option>
+        }
+    </select><br />
+
+    <input type="file" name="photo_1" /><br />
+    <input type="file" name="photo_2" /><br />
+    <input type="file" name="photo_3" /><br />
+    <input type="file" name="photo_4" /><br />
+    <input type="file" name="photo_5" /><br />
+
+    <button type="submit" class="btn btn-facebook">Add</button>
+</form>

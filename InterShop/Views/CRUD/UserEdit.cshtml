@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model User
+
+
+<header>Edit Page</header>
+
+<form method="POST" asp-action="Edit" asp-controller="CRUD" asp-route-id="@Model.Id">
+   <label>Login</label><br />
+    <input asp-for="Login"/><br />
+     <label>Password</label><br />
+    <input asp-for="Password" /><br />
+    <label>Email</label><br />
+    <input asp-for="Email" type="email" /><br />
+    <label>Phone</label><br />
+    <input asp-for="Phone" type="tel" /><br />
+    <select asp-for="RoleId">Role
+        <option value="1">Admin</option>
+        <option value="2">Manager</option>
+        <option value="3">User</option>
+    </select>
+    <button type="submit" class="btn btn-facebook">Edit</button>
+</form>
