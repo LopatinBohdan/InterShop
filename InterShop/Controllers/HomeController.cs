@@ -93,10 +93,10 @@ namespace InterShop.Controllers
 
 			return View("Index", products);
 		}
-        public IActionResult Authorization()
-		{
-			return View();
-		}
+  //      public IActionResult Authorization()
+		//{
+		//	return View();
+		//}
 
 		public IActionResult Privacy()
 		{

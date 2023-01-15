@@ -10,9 +10,9 @@ builder.Services.AddControllersWithViews();
 string ConnString = builder.Configuration.GetConnectionString("DefConn");
 builder.Services.AddDbContext<InterShopContext>(options => options.UseSqlServer(ConnString));
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Authorization/Index");
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => options.LoginPath = "/Authorization/Index");
 
-//builder.Services.AddAuthorization();
+builder.Services.AddAuthorization();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,8 +28,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",

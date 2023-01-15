@@ -2,15 +2,25 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "_Layout";
 }
 @model Dictionary<Product, int>
 
 @*ToCart*@
 
+<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+    </ol>
+</nav>
+<p>In Cart:</p>
 <ul>
     @foreach (var item in Model)
     {
-        <li>@item.Key.Title - @item.Value</li>
+        <li>@item.Key.Title - @item.Value p. - @item.Key.Price$</li>
     }
-   
 </ul>
+<form method="POST" asp-controller="CRUD" asp-action="AddOrder">
+    <button type="submit" class="btn btn-facebook">Confirm order</button>
+</form>

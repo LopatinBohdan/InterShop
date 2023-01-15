@@ -7,9 +7,9 @@
 		public virtual User? GetUser { get; set; }
 		public ICollection<ProductOrder> ProductOrders { get; set; }
 		public int OrderStateId { get; set; }
-		public virtual OrderState? State { get; set; }  
-		DateTime? Created { get; set; }
-		DateTime? Updated { get; set; }
+		public string?  State { get; set; }  
+		public DateTime Created { get; set; }
+		public DateTime Updated { get; set; }
 
 		public Order() 
 		{

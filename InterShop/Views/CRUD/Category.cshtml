@@ -6,8 +6,14 @@
 }
 @model List<Category>
 
-<header>Categories</header>
 
+<header>Categories</header>
+<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Category</li>
+    </ol>
+</nav>
 <form asp-action="CategoryAdd" asp-controller="CRUD" method="GET">
     <button type="submit" class="btn btn-facebook">Add Category</button>
 </form>

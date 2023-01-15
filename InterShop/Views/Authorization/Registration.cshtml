@@ -7,6 +7,12 @@
 @model User
 
 <header>Registration Form</header>
+<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcr umb-item active" aria-current="page">Registration</li>
+    </ol>
+</nav>
 <form method="POST" asp-controller="Authorization" asp-action="Check">
     <label>Login</label><br />
     <input asp-for="Login"/><br />

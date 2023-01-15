@@ -22,6 +22,12 @@ namespace InterShop.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/Home/Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index(IFormCollection keys)
         {
@@ -37,7 +43,7 @@ namespace InterShop.Controllers
                 var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 await HttpContext.SignInAsync(claimsPrincipal);
-                return RedirectToAction("Index", "CRUD", null);
+                return RedirectToAction("Index", "Home", null);
             }
             return View("Index");
         }

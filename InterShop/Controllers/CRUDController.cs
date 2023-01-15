@@ -13,6 +13,7 @@ namespace InterShop.Controllers
         List<User> users;
         List<Category> categories;
         List<Product> products;
+        //Order order;
 
         class Cart
         {
@@ -25,11 +26,11 @@ namespace InterShop.Controllers
             this.db = context;
         }
 
-
+        //To Cart
         public IActionResult ToCart()
         {
             Dictionary<Product, int> pairs = new Dictionary<Product, int>();
-            var cookie= Request.Cookies["Cart"];
+            var cookie= Request.Cookies[$"cart{ User.Identity.Name}"];
             if (cookie != null)
             {
                 List<Cart> carts = JsonSerializer.Deserialize<List<Cart>>(cookie);
@@ -51,20 +52,70 @@ namespace InterShop.Controllers
             }
             else return NotFound();
         }
+        //Order Confirm
+        [HttpPost]
+        public async Task<IActionResult> AddOrder()
+        {
+            Order order=new Order();
+            order.OrderStateId = 1;
+            order.Created= DateTime.Now;
+            order.Updated= DateTime.Now;
+            order.UserId = db.users.Where(u => u.Login.Equals(User.Identity.Name)).First().Id;
+            await db.AddAsync(order);
+            await db.SaveChangesAsync();
+
+            order=await db.orders.Where(o=>o.UserId.Equals(order.UserId)).OrderByDescending(o=>o.Created).FirstOrDefaultAsync();
+            Dictionary<Product, int> cart = new Dictionary<Product, int>();
+            var cookie = Request.Cookies[$"cart{User.Identity.Name}"];
+            if (cookie != null)
+            {
+                List<Cart> carts = JsonSerializer.Deserialize<List<Cart>>(cookie);
+
+                foreach (var item in carts)
+                {
+                    var product = await db.products.FindAsync(item.Id);
+                    if (cart.ContainsKey(product))
+                    {
+                        cart[product] += item.Amount;
+                    }
+                    else
+                    {
+                        cart.Add(product, item.Amount);
+                    }
+                }
+            }
+
+            foreach (var item in cart)
+            {
+                ProductOrder po=new ProductOrder();
+                po.OrderId = order.Id;
+                po.ProductId = item.Key.Id;
+                po.Amount = item.Value;
+                po.TotalPrice = item.Key.Price * po.Amount;
+
+                await db.AddAsync(po);
+            }
+            await db.SaveChangesAsync();
+
+            return Redirect("/Home/Index");
+        }
 
 
-        //[Authorize(Roles="admin")]
+        [Authorize(Roles="admin")]
         [HttpGet]
         public IActionResult UserAdd()
         {
             return View(new User());
         }
 
+        [Authorize(Roles = "admin, manager")]
         [HttpGet]
         public IActionResult CategoryAdd()
         {
             return View(new Category());
         }
+
+        [Authorize(Roles = "admin, manager")]
         [HttpGet]
         public IActionResult ProductAdd()
         {
@@ -129,17 +180,22 @@ namespace InterShop.Controllers
         }
 
 
-        //[Authorize(Roles="admin")]
+        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "manager")]
         public IActionResult Index()
         {
             users = db.users.ToList();
             return View(users);
         }
+        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "manager")]
         public IActionResult Category()
         {
             categories = db.categories.ToList();
             return View(categories);
         }
+        //[Authorize(Roles = "admin")]
+        //[Authorize(Roles = "manager")]
         public IActionResult Product()
         {
             products = db.products.ToList();
@@ -270,7 +326,6 @@ namespace InterShop.Controllers
         {
             if (product != null)
             {
-               
                 db.Update(product);
                 await db.SaveChangesAsync();
                 return View("Product", db.products.ToList());

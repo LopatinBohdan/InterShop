@@ -4,6 +4,12 @@
 @model User
 
 @*Authorization*@
+<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="Home">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Authorization</li>
+    </ol>
+</nav>
 <form method="POST" asp-controller="Authorization" style="align-items:center">
     <label>Login</label><br />
     <input asp-for="Login" name="Login"/><br />

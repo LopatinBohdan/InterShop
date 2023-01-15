@@ -54,10 +54,12 @@
                     Interface
                 </div>
 
-                <!-- User Menu -->
+             <!-- User Menu -->
+            @if (User.IsInRole("admin"))
+            {
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                       aria-expanded="true" aria-controls="collapseTwo">
+                   aria-expanded="true" aria-controls="collapseTwo">
                         <i class="fas fa-fw fa-cog"></i>
                         <span>Users</span>
                     </a>
@@ -69,25 +71,33 @@
                         </div>
                     </div>
                 </li>
-
-            <!-- Category Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            }
+            
+             <!-- Category Menu -->
+            @if (User.IsInRole("admin") || User.IsInRole("manager"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Categories</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingTwo"
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Categories</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingTwo"
                      data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Category records</h6>
-                        <a class="collapse-item" href="~/CRUD/Category">Category List</a>
-                        <a class="collapse-item" href="~/CRUD/CategoryAdd">Add Category</a>
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Category records</h6>
+                            <a class="collapse-item" href="~/CRUD/Category">Category List</a>
+                            <a class="collapse-item" href="~/CRUD/CategoryAdd">Add Category</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            }
+           
+           
             <!-- Product Menu -->
-            <li class="nav-item">
+            @if (User.IsInRole("admin") || User.IsInRole("manager"))
+            {
+              <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                    aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-cog"></i>
@@ -100,7 +110,9 @@
                         <a class="collapse-item" href="~/CRUD/ProductAdd">Add Product</a>
                     </div>
                 </div>
-            </li>
+            </li>  
+            }
+            
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
 
@@ -155,15 +167,22 @@
                                 </div>
                             </div>
                         </form>
-
-                        <div style="text-align:right">
-                            <a  href="Authorization/Index" >
-                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
+                    
+                    <!-- LogIn -->
+                    <div style="text-align:right; margin-right:50px" >
+                        <a asp-controller="Authorization" asp-action="Index">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
+                                LogIn
                             </a>
+                        <!-- LogOut -->
+                        <a asp-controller="Authorization" asp-action="Logout">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            LogOut
+                        </a>
                         </div>
-                       <a  href="CRUD/ToCart" >
-                           @* <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>*@
+                         <!-- ToCart -->
+                       <a asp-action="ToCart" asp-controller="CRUD" >
+                            <i class="fas @*fa-sign-out-alt*@ fa-sm fa-fw mr-2 text-gray-400"></i>
                                 ToCart
                             </a>
                     </nav>
@@ -257,7 +276,4 @@
         <script src="~/Theme/js/demo/chart-area-demo.js"></script>
         <script src="~/Theme/js/demo/chart-pie-demo.js"></script>
 </body>
-    
-   
-
 </html>

@@ -8,6 +8,13 @@
 
     <header>Users</header>
 
+<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Users</li>
+    </ol>
+</nav>
+
     <form asp-action="UserAdd" asp-controller="CRUD" method="GET">
     <button type="submit" class="btn btn-facebook">Add User</button>
     </form>

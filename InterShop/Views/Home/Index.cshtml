@@ -56,6 +56,7 @@
                     <a asp-action="ProductInfo" asp-controller="CRUD" class="btn btn-primary" asp-route-id="@item.Id">More</a>
                     <button type="button"  class="btn btn-success" asp-route-id="@item.Id" onclick="ToCart(@item.Id)">Buy</button>
                     <input type="number" name="amount" id="@item.Id" style="width:40px; height:35px" min="1" value="1">
+                    <input type="hidden" value="@User.Identity.Name" id="uiName">
                 </div>
             </div>
         </div>
@@ -70,9 +71,9 @@
         function ToCart(id){
             var amount=+document.getElementById(id).value;
             var obj={Id:id,Amount:amount};
+            var uiName=document.getElementById("uiName").value;
 
-           
-            var cart=getCookie("cart");
+            var cart = getCookie(`cart${uiName}`);
             if(cart!=undefined){
                 cart=JSON.parse(cart);
                 
@@ -83,7 +84,8 @@
                 cart.push(obj);
             }
             var str = JSON.stringify(cart);
-            setCookie("cart", str, { "max-age": 3600 * 3 });
+            setCookie(`cart${uiName}`, str, { "max-age": 3600 * 3 });
+            
         }
         //GET COOKIE
         function getCookie(name) {
@@ -119,6 +121,7 @@
                     updatedCookie += "=" + optionValue;
                 }
             }
+            console.log(name);
             document.cookie = updatedCookie;
         }
     </script>
